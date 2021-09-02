@@ -4,14 +4,19 @@ from PySide2.QtWidgets import QApplication
 
 bl_info = {
     "name": "Open Ryven Editor",
+    "author": "Leon Thomm",
+    "version": (0, 0, 0),
+    "description": "A Ryven-like node editor plugin for Blender",
     "blender": (2, 93, 4),
     "category": "Object",
 }
 
 
 class OpenEditor(bpy.types.Operator):
-    bl_idname = "open.editor"
-    bl_label = "Open Ryven Editor"
+    """Just an operator to quickly reopen the editor"""
+
+    bl_idname = "ryven.open_editor"
+    bl_label = "Open Ryven Blender"
 
     def execute(self, context):
         editor.show()

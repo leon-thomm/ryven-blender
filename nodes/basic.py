@@ -6,7 +6,7 @@ import bpy
 
 
 class NodeBase(Node):
-    pass
+    identifier_prefix = 'basic'
 
 
 class ValNode(NodeBase):
