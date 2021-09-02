@@ -1,7 +1,10 @@
+from os.path import abspath, join, dirname
+
 import ryvencore_qt as rc
 from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QDialog, QHBoxLayout, QApplication
 
+from .styling.window_theme import apply_stylesheet
 from .nodes.basic import export_nodes as nodes_basic
 
 
@@ -9,16 +12,17 @@ class EditorWindow(QDialog):
     def __init__(self, parent):
         super().__init__(parent, Qt.WindowCloseButtonHint | Qt.WindowSystemMenuHint | Qt.WindowTitleHint)
 
-        self.apply_stylesheet()
+        # self.apply_stylesheet()
+        apply_stylesheet('dark')
         self.resize(800, 500)
         self.setWindowTitle('Ryven Blender')
 
         self.setLayout(QHBoxLayout())
 
         # build core
-        self.session = rc.Session(
-            flow_theme_name='Blender',
-            performance_mode='fast',
+        self.session = rc.Session()
+        self.session.design.load_from_config(
+            abspath(join(dirname(__file__), 'styling/design_config.json'))
         )
         self.session.register_nodes(
             nodes_basic
@@ -43,7 +47,7 @@ class EditorWindow(QDialog):
         """
 
         import os
-        f = open(os.path.join(os.path.dirname(__file__), 'styles_template.css'))
+        f = open(os.path.join(os.path.dirname(__file__), 'styling/styles_template.css'))
 
         from jinja2 import Template
         jinja_template = Template(f.read())
