@@ -1,6 +1,6 @@
 import bpy
-from .editor import EditorWindow
-from PySide2.QtWidgets import QApplication
+
+from .editor import init_editor
 
 bl_info = {
     "name": "Open Ryven Editor",
@@ -13,7 +13,7 @@ bl_info = {
 
 
 class OpenEditor(bpy.types.Operator):
-    """Just an operator to quickly reopen the editor"""
+    """Operator to quickly reopen the editor"""
 
     bl_idname = "ryven.open_editor"
     bl_label = "Open Ryven Blender"
@@ -28,11 +28,10 @@ def menu_func(self, context):
 
 
 def register():
-    # create new editor instance
-    main_window = QApplication.instance().blender_widget
     global editor
-    editor = EditorWindow(main_window)
-    editor.show()
+    global session
+
+    editor, session = init_editor()
 
     bpy.utils.register_class(OpenEditor)
     bpy.types.VIEW3D_MT_object.append(menu_func)
@@ -44,4 +43,5 @@ def unregister():
 
 if __name__ == '__main__':
     editor = None
+    session = None
     register()

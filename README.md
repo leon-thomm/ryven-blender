@@ -1,27 +1,52 @@
-### Blender plugin for Ryven-like nodes editor
+## Ryven plugin for Blender
 
-This repo can be used as Blender plugin to integrate a simple Ryven-like editor, but there are practically no nodes yet. **If you know the Blender Python API or want to get into it, please consider contributing by creating nodes**.
+This repo consists of a tiny file for loading [Ryven](https://github.com/leon-thomm/ryven) as a plugin in Blender, as well as nodes packages. **Notice that there are no nodes at all available yet, because I don't know the Blender Python API well**. If you do, please consider contributing.
 
-While Blender itself already has an impressive built-in node editor system, the simplicity of Ryven together with the extensive Blender Python API might enable extremely rapid development of new sophisticated nodes.
+While Blender itself already has an impressive built-in nodes-based material editor, the simplicity of Ryven together with the extensive Blender Python API might enable much more rapid development of new nodes.
 
 ![](screenshot1.png)
 
 ## setup
 
-Using *Blender's local Python installation*, install [`ryvencore-qt`](https://github.com/leon-thomm/ryvencore-qt)
+### Step 1: Find the path to your Blender's Python executable
+
+something like
 
 ```
-pip install ryvencore-qt
+C:\Program Files\Blender Foundation\Blender 2.93\2.93\python\bin\python
 ```
 
-However, you probably have a global Python installation already on your system, so you might have to run this by manually specifying the paths to Blender's Python, like this
+I will refer to the Blender Python path as `<BPP>` from now on.
+
+### Step 2: Install Ryven and bqt
+
+Run a terminal with admin/root privileges and execute
 
 ```
-<BP>/<ver>/python/bin> python.exe "<BP>/<ver>/python/lib/site-packages/pip" install ryvencore-qt
+"<BPP>" -m pip install ryven
+"<BPP>" -m pip install bqt
 ```
 
-where `<BP>` is the path to your Blender installation and `<ver>` is the version.
+### Step 3: Add the plugin
 
-Then place this repository under `<BP>/<ver>/scripts/addons/` and restart blender. Under `Edit => Preferences => Add-ons` you should now find `Open Ryven Editor`. If not, click `install` and select the `ryven-blender/__init__.py` file.
+Clone this repository into the addons dir of your Blender installation
+
+```
+cd <Blender-Path>/<ver>/scripts/addons/
+git clone https://github.com/leon-thomm/ryven-blender
+```
+
+### Step 4: Load the plugin
+
+Open Blender. Under `Edit => Preferences => Add-ons` you should now find `Open Ryven Editor`. If not, click `install` and select the `ryven-blender/ryven-blender.py` file.
 
 By pressing `F3` in Blender you should now find `Open Ryven Editor` as command which simply shows the editor window, closing the Ryven editor window doesn't kill its content.
+
+## troubleshooting
+
+Blender's Python integration system seems quite bad. It comes with its own Python installation, which you need to use to install Ryven and dependencies, but when I try to use it myself I usually get all sorts of bugs and unintended behavior all the time. Frequently occurring issues:
+
+- on Windows, Blender likes to randomly copy `ryven-blender.py` into a Roaming directory when the addon is loaded, and then it complains that there are conflicting addon versions (duh)
+- installing packages on Blender's python is a nightmare, sometimes the installed packages are existent and listed by pip but Blender itself cannot read them, sometimes the installation itself is broken leading to unfixable (other than complete reinstall) issues like the shiboken import issues that PySide2 had on Python 3.8.0
+- you might want to run Blender as administrator to grant ryven read/write permissions to its installation directory in Blender-Python's site-packages
+- paths given for modules from addons can be different from you would expect when loaded in Blender
