@@ -9,32 +9,32 @@ class NodeBase(Node):
     identifier_prefix = 'basic'
 
 
-class ValNode(NodeBase):
-    title = 'val'
-    init_inputs = [
-        NodeInputBP(dtype=dtypes.Data(size='s'))
-    ]
-    init_outputs = [
-        NodeOutputBP()
-    ]
-    style = 'small'
-
-    def place_event(self):
-        self.set_display_title('')
-
-    def update_event(self, inp=-1):
-        self.set_output_val(0, self.input(0))
-
-
-class ResultNode(NodeBase):
-    title = 'result'
-    init_inputs = [
-        NodeInputBP(dtype=dtypes.Data(size='l'))
-    ]
-    style = 'small'
-
-    def place_event(self):
-        self.set_display_title('')
+# class ValNode(NodeBase):
+#     title = 'val'
+#     init_inputs = [
+#         NodeInputBP(dtype=dtypes.Data(size='s'))
+#     ]
+#     init_outputs = [
+#         NodeOutputBP()
+#     ]
+#     style = 'small'
+#
+#     def place_event(self):
+#         self.set_display_title('')
+#
+#     def update_event(self, inp=-1):
+#         self.set_output_val(0, self.input(0))
+#
+#
+# class ResultNode(NodeBase):
+#     title = 'result'
+#     init_inputs = [
+#         NodeInputBP(dtype=dtypes.Data(size='l'))
+#     ]
+#     style = 'small'
+#
+#     def place_event(self):
+#         self.set_display_title('')
 
 
 class GetSceneNode(NodeBase):
@@ -437,8 +437,8 @@ class Exec_Node(_DynamicPorts_Node):
 
 
 export_nodes = [
-    ValNode,
-    ResultNode,
+    # ValNode,
+    # ResultNode,
     GetSceneNode,
     GetSceneObjectsNode,
     Checkpoint_Node,

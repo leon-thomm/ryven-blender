@@ -1,6 +1,7 @@
 import ryven
 from PySide2.QtWidgets import QApplication
-from .nodes.basic import export_nodes as nodes_basic
+import os
+import sys
 
 
 def init_editor():
@@ -16,9 +17,12 @@ def init_editor():
     )
     session = editor.session
 
-    # register nodes
+    #   important: relative imports don't work here our of the box;
+    #   this file's dir serves now as base directory for relative imports within this package
+    sys.path.append(os.path.dirname(__file__))
 
-    session.register_nodes(nodes_basic)
+    # register nodes (though Ryven!)
+    editor.import_nodes(path=os.path.join(os.path.dirname(__file__), 'blender_nodes'))
 
     # create main script
     session.create_script('main')
